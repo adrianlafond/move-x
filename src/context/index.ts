@@ -12,5 +12,6 @@ export const timer = createContext({
 export const settings = createContext({
   minutes: 20,
   seconds: 0,
-  viewTimer: () => { },
+  updateDefaults: (minutes: number, seconds: number) => {},
+  exitSettings: () => { },
 });

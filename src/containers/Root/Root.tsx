@@ -76,7 +76,8 @@ class Root extends React.Component<ModelProps, ModelState> {
     const context = {
       minutes: defaults.minutes,
       seconds: defaults.seconds,
-      viewTimer: this.viewTimer,
+      updateDefaults: this.updateDefaults,
+      exitSettings: this.exitSettings,
     };
     return (
       <settingsContext.Provider value={context}>
@@ -110,11 +111,15 @@ class Root extends React.Component<ModelProps, ModelState> {
     });
   }
 
+  updateDefaults = (minutes: number, seconds: number) => {
+    this.setState({ defaults: { minutes, seconds } });
+  }
+
   viewSettings = () => {
     this.setState({ view: View.SETTINGS });
   }
 
-  viewTimer = () => {
+  exitSettings = () => {
     this.setState({ view: View.TIMER });
   }
 }
