@@ -2,6 +2,7 @@ import React from 'react';
 import { timer as timerContext, settings as settingsContext } from '../../context';
 import Timer from '../../views/Timer/Timer';
 import Settings from '../../views/Settings/Settings';
+import Favicon from '../../views/Favicon';
 import MoveAlarm from '../../views/MoveAlarm';
 import './Root.css';
 
@@ -49,6 +50,7 @@ class Root extends React.Component<ModelProps, ModelState> {
     const { view, alarm } = this.state;
     return (
       <div className="move-root">
+        <Favicon fire={alarm} />
         <MoveAlarm fire={alarm} alarmAcknowledged={this.alarmAcknowledged} />
         {view === View.SETTINGS ?
           this.renderSettings() :
@@ -91,13 +93,13 @@ class Root extends React.Component<ModelProps, ModelState> {
   }
 
   alarmAcknowledged = () => {
-    this.setState({ alarm: false });
-    this.resetTimer();
+    window.requestAnimationFrame(() => {
+      this.resetTimer();
+    });
   }
 
   resetTimer = () => {
-    const time = { ...this.state.defaults };
-    this.setState({ time });
+    this.setState({ time: { ...this.state.defaults }, alarm: false });
   }
 
   toggleRunning = () => {
