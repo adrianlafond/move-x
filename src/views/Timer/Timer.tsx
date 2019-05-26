@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import context from '../../context';
+import { timer } from '../../context';
 import './Timer.css';
 
 function formatNumber(value: number): string {
@@ -15,8 +15,7 @@ function formatTime(minutes: number, seconds: number): string {
 }
 
 const Timer: React.FC = () => {
-  const { time, running, resetTimer, toggleRunning, viewSettings } = useContext(context);
-  const { minutes, seconds } = time;
+  const { minutes, seconds, running, resetTimer, toggleRunning, viewSettings } = useContext(timer);
   return (
     <div className='move-timer'>
       <p>{formatTime(minutes, seconds)}</p>

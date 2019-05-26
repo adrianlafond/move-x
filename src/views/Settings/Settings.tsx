@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import context from '../../context';
+import { settings } from '../../context';
 
 const Settings: React.FC = () => {
-  const { viewTimer } = useContext(context);
+  const { viewTimer } = useContext(settings);
   return (
     <div>
       <p>Settings</p>

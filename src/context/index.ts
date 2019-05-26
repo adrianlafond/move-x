@@ -1,19 +1,16 @@
 import { createContext } from 'react';
 
-const context = createContext({
-  defaults: {
-    minutes: 20,
-    seconds: 0,
-  },
-  time: {
-    minutes: 20,
-    seconds: 0,
-  },
+export const timer = createContext({
+  minutes: 20,
+  seconds: 0,
   running: false,
-  resetTimer: () => {},
-  toggleRunning: () => {},
-  viewSettings: () => {},
-  viewTimer: () => {},
+  resetTimer: () => { },
+  toggleRunning: () => { },
+  viewSettings: () => { },
 });
 
-export default context;
+export const settings = createContext({
+  minutes: 20,
+  seconds: 0,
+  viewTimer: () => { },
+});

@@ -1,5 +1,5 @@
 import React from 'react';
-import context from '../../context';
+import { timer as timerContext, settings as settingsContext } from '../../context';
 import Timer from '../../views/Timer/Timer';
 import Settings from '../../views/Settings/Settings';
 import './Root.css';
@@ -43,25 +43,45 @@ class Root extends React.Component<ModelProps, ModelState> {
   }
 
   render() {
-    const { view, defaults, time, running } = this.state;
-    const contextValue = {
-      defaults: { ...defaults },
-      time: { ...time },
-      running: running,
+    const { view } = this.state;
+    return (
+      <div className="move-root">
+        {view === View.SETTINGS ?
+          this.renderSettings() :
+          this.renderTimer()
+        }
+      </div>
+    );
+  }
+
+  renderTimer() {
+    const { time, running } = this.state;
+    const context = {
+      running,
+      minutes: time.minutes,
+      seconds: time.seconds,
       resetTimer: this.resetTimer,
       toggleRunning: this.toggleRunning,
       viewSettings: this.viewSettings,
+    };
+    return (
+      <timerContext.Provider value={context}>
+        <Timer />
+      </timerContext.Provider>
+    );
+  }
+
+  renderSettings() {
+    const { defaults } = this.state;
+    const context = {
+      minutes: defaults.minutes,
+      seconds: defaults.seconds,
       viewTimer: this.viewTimer,
     };
     return (
-      <context.Provider value={contextValue}>
-        <div className="move-root">
-          {view === View.SETTINGS ?
-            <Settings /> :
-            <Timer />
-          }
-        </div>
-      </context.Provider>
+      <settingsContext.Provider value={context}>
+        <Settings />
+      </settingsContext.Provider>
     );
   }
 
