@@ -1,7 +1,7 @@
 import React from 'react';
 import { timer as timerContext, settings as settingsContext } from '../../context';
-import Timer from '../../views/Timer/Timer';
-import Settings from '../../views/Settings/Settings';
+import Timer from '../../views/Timer';
+import Settings from '../../views/Settings';
 import Favicon from '../../views/Favicon';
 import MoveAlarm from '../../views/MoveAlarm';
 import './Root.css';
