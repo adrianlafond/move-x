@@ -6,7 +6,7 @@ class Settings extends Component {
   static contextType = settings;
 
   componentDidMount() {
-    document.addEventListener('keydown', this.onKeyPress);
+    window.addEventListener('keydown', this.onKeyPress);
   }
 
   componentWillUnmount() {
@@ -29,7 +29,6 @@ class Settings extends Component {
     }
     return (
       <div className='move-settings'>
-        <h2 className='move-settings__title'>Settings</h2>
         <input
           type="number"
           onChange={onMinutesChange}

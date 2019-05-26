@@ -2,8 +2,8 @@ import React from 'react';
 import { timer as timerContext, settings as settingsContext } from '../../context';
 import Timer from '../../views/Timer';
 import Settings from '../../views/Settings';
-import Favicon from '../../views/Favicon';
-import MoveAlarm from '../../views/MoveAlarm';
+import Favicon from '../../components/Favicon';
+import MoveAlarm from '../../components/MoveAlarm';
 import './Root.css';
 
 interface Time {
@@ -41,7 +41,7 @@ class Root extends React.Component<ModelProps, ModelState> {
       time: defaults,
       alarm: false,
       running: false,
-      view: View.TIMER,
+      view: View.SETTINGS,
     }
   }
 
