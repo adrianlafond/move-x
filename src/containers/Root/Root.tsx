@@ -109,6 +109,7 @@ class Root extends React.Component<ModelProps, ModelState> {
       { ...defaults } : time;
     this.setState({ running: !running, time: newTime }, () => {
       if (this.state.running) {
+        this.requestNotificationsPermission();
         this.interval = window.setInterval(() => {
           const { minutes, seconds} = this.state.time;
           const time = { minutes, seconds };
@@ -126,6 +127,12 @@ class Root extends React.Component<ModelProps, ModelState> {
         window.clearInterval(this.interval);
       }
     });
+  }
+
+  requestNotificationsPermission() {
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
   }
 
   updateDefaults = (minutes: number, seconds: number) => {
