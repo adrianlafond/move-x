@@ -48,6 +48,7 @@ class Root extends React.Component<ModelProps, ModelState> {
       defaults: { ...defaults },
       time: { ...time },
       running: running,
+      resetTimer: this.resetTimer,
       toggleRunning: this.toggleRunning,
       viewSettings: this.viewSettings,
       viewTimer: this.viewTimer,
@@ -62,6 +63,11 @@ class Root extends React.Component<ModelProps, ModelState> {
         </div>
       </context.Provider>
     );
+  }
+
+  resetTimer = () => {
+    const time = { ...this.state.defaults };
+    this.setState({ time });
   }
 
   toggleRunning = () => {

@@ -10,6 +10,7 @@ const context = createContext({
     seconds: 0,
   },
   running: false,
+  resetTimer: () => {},
   toggleRunning: () => {},
   viewSettings: () => {},
   viewTimer: () => {},

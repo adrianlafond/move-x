@@ -15,11 +15,12 @@ function formatTime(minutes: number, seconds: number): string {
 }
 
 const Timer: React.FC = () => {
-  const { time, running, toggleRunning, viewSettings } = useContext(context);
+  const { time, running, resetTimer, toggleRunning, viewSettings } = useContext(context);
   const { minutes, seconds } = time;
   return (
     <div className='move-timer'>
       <p>{formatTime(minutes, seconds)}</p>
+      <button onClick={resetTimer}>RESET</button>
       <button onClick={toggleRunning}>{running ? 'PAUSE' : 'PLAY'}</button>
       <button onClick={viewSettings}>SETTINGS</button>
     </div>
