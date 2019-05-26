@@ -31,15 +31,14 @@ class Root extends React.Component<ModelProps, ModelState> {
 
   constructor(props: object) {
     super(props);
+    const storedDefaults = window.localStorage.getItem('defaults');
+    const defaults = storedDefaults ? JSON.parse(storedDefaults) : {
+      minutes: 20,
+      seconds: 0,
+    };
     this.state = {
-      defaults: {
-        minutes: 20,
-        seconds: 0,
-      },
-      time: {
-        minutes: 20,
-        seconds: 0,
-      },
+      defaults,
+      time: defaults,
       alarm: false,
       running: false,
       view: View.TIMER,
@@ -130,9 +129,12 @@ class Root extends React.Component<ModelProps, ModelState> {
   }
 
   updateDefaults = (minutes: number, seconds: number) => {
-    this.setState({ defaults: { minutes, seconds } });
+    const defaults = { minutes, seconds };
+    this.setState({ defaults }, () => {
+      window.localStorage.setItem('defaults', JSON.stringify(defaults));
+    });
     if (!this.state.running) {
-      this.setState({ time: { minutes, seconds } });
+      this.setState({ time: defaults });
     }
   }
 
