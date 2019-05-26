@@ -32,6 +32,12 @@ const Settings: React.FC = () => {
         value={seconds}
       />
       <button onClick={exitSettings}>EXIT</button>
+      <p>Move! relies on notifications. If you're anything like me, you have probably disabled all notifications in your web browser. To re-enable them, at least for this app:</p>
+      <ul>
+        <li>Dig into your web browser preferences: most web browsers allow you to enable notifications for specific domains while keeping them disabled for all others.</li>
+        <li>Open your system or operating system preferences: you may have disabled all notifications entirely for your web browser.</li>
+        <li>Your computer may be in "do not disturb" mode (yes, even your desktop computer).</li>
+      </ul>
     </div>
   );
 }
