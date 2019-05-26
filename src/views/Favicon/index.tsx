@@ -20,7 +20,6 @@ function getIcon(size: number): HTMLLinkElement {
   if (!el) {
     el = document.createElement('link');
     el.setAttribute('rel', 'shortcut icon');
-    // el.setAttribute('href', `${(window as any).PUBLIC_URL}/`);
     el.setAttribute('sizes', `${size}x${size}`);
   }
   return el;

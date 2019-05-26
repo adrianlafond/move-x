@@ -98,12 +98,17 @@ class Root extends React.Component<ModelProps, ModelState> {
     });
   }
 
-  resetTimer = () => {
-    this.setState({ time: { ...this.state.defaults }, alarm: false });
+  resetTimer = (alarm = false) => {
+    const alarmValue = alarm === true;
+    this.setState({ time: { ...this.state.defaults }, alarm: alarmValue });
   }
 
   toggleRunning = () => {
-    this.setState({ running: !this.state.running }, () => {
+    const { defaults, time, running } = this.state;
+    const { minutes, seconds } = time;
+    const newTime = !running && minutes === 0 && seconds === 0 ?
+      { ...defaults } : time;
+    this.setState({ running: !running, time: newTime }, () => {
       if (this.state.running) {
         this.interval = window.setInterval(() => {
           const { minutes, seconds} = this.state.time;
