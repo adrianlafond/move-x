@@ -2,6 +2,7 @@ import React from 'react';
 import { timer as timerContext, settings as settingsContext } from '../../context';
 import Timer from '../../views/Timer/Timer';
 import Settings from '../../views/Settings/Settings';
+import MoveAlarm from '../../views/MoveAlarm';
 import './Root.css';
 
 interface Time {
@@ -19,6 +20,7 @@ interface ModelProps {}
 interface ModelState {
   defaults: Time;
   time: Time;
+  alarm: boolean;
   running: boolean;
   view: View;
 }
@@ -37,15 +39,17 @@ class Root extends React.Component<ModelProps, ModelState> {
         minutes: 20,
         seconds: 0,
       },
+      alarm: false,
       running: false,
       view: View.TIMER,
     }
   }
 
   render() {
-    const { view } = this.state;
+    const { view, alarm } = this.state;
     return (
       <div className="move-root">
+        <MoveAlarm fire={alarm} alarmAcknowledged={this.alarmAcknowledged} />
         {view === View.SETTINGS ?
           this.renderSettings() :
           this.renderTimer()
@@ -86,6 +90,11 @@ class Root extends React.Component<ModelProps, ModelState> {
     );
   }
 
+  alarmAcknowledged = () => {
+    this.setState({ alarm: false });
+    this.resetTimer();
+  }
+
   resetTimer = () => {
     const time = { ...this.state.defaults };
     this.setState({ time });
@@ -100,10 +109,12 @@ class Root extends React.Component<ModelProps, ModelState> {
           time.seconds = time.seconds === 0 ? 59 : time.seconds - 1;
           time.minutes = time.seconds === 59 ? time.minutes - 1 : time.minutes;
           const running = time.minutes !== 0 || time.seconds !== 0;
-          if (!running) {
-            window.clearInterval(this.interval);
-          }
-          this.setState({ time, running });
+          this.setState({ time, running }, () => {
+            if (!running) {
+              window.clearInterval(this.interval);
+              this.setState({ alarm: true });
+            }
+          });
         }, 1000);
       } else {
         window.clearInterval(this.interval);
@@ -113,6 +124,9 @@ class Root extends React.Component<ModelProps, ModelState> {
 
   updateDefaults = (minutes: number, seconds: number) => {
     this.setState({ defaults: { minutes, seconds } });
+    if (!this.state.running) {
+      this.setState({ time: { minutes, seconds } });
+    }
   }
 
   viewSettings = () => {
