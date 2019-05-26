@@ -1,7 +1,7 @@
 import React from 'react';
 import context from '../../context';
-import Timer from '../Timer/Timer';
-import Settings from '../Settings/Settings';
+import Timer from '../../views/Timer/Timer';
+import Settings from '../../views/Settings/Settings';
 import './Root.css';
 
 interface Time {
