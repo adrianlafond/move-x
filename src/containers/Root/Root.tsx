@@ -41,7 +41,7 @@ class Root extends React.Component<ModelProps, ModelState> {
       time: defaults,
       alarm: false,
       running: false,
-      view: View.SETTINGS,
+      view: View.TIMER,
     }
   }
 
@@ -67,6 +67,8 @@ class Root extends React.Component<ModelProps, ModelState> {
       seconds: time.seconds,
       resetTimer: this.resetTimer,
       toggleRunning: this.toggleRunning,
+      addTime: this.addTime,
+      decreaseTime: this.decreaseTime,
       viewSettings: this.viewSettings,
     };
     return (
@@ -109,24 +111,64 @@ class Root extends React.Component<ModelProps, ModelState> {
       { ...defaults } : time;
     this.setState({ running: !running, time: newTime }, () => {
       if (this.state.running) {
-        this.requestNotificationsPermission();
-        this.interval = window.setInterval(() => {
-          const { minutes, seconds} = this.state.time;
-          const time = { minutes, seconds };
-          time.seconds = time.seconds === 0 ? 59 : time.seconds - 1;
-          time.minutes = time.seconds === 59 ? time.minutes - 1 : time.minutes;
-          const running = time.minutes !== 0 || time.seconds !== 0;
-          this.setState({ time, running }, () => {
-            if (!running) {
-              window.clearInterval(this.interval);
-              this.setState({ alarm: true });
+        if (time.minutes === 0 && time.seconds === 0) {
+          this.setState({ alarm: true });
+        } else {
+          this.requestNotificationsPermission();
+          this.interval = window.setInterval(() => {
+            const { minutes, seconds } = this.state.time;
+            const time = { minutes, seconds };
+            time.seconds = time.seconds === 0 ? 59 : time.seconds - 1;
+            time.minutes = time.seconds === 59 ? time.minutes - 1 : time.minutes;
+            time.minutes = Math.max(0, time.minutes);
+            if (time.minutes === 0) {
+              time.seconds = Math.max(0, time.seconds);
             }
-          });
-        }, 1000);
+            const running = time.minutes !== 0 || time.seconds !== 0;
+            this.setState({ time, running }, () => {
+              if (!running) {
+                window.clearInterval(this.interval);
+                this.setState({ alarm: true });
+              }
+            });
+          }, 1000);
+        }
       } else {
         window.clearInterval(this.interval);
       }
     });
+  }
+
+  addTime = () => {
+    this.updateTime(1);
+  }
+
+  decreaseTime = () => {
+    this.updateTime(-1);
+  }
+
+  updateTime = (increment: number) => {
+    const { running, defaults, time } = this.state;
+    let { minutes, seconds } = running ? time : defaults;
+    if (increment < 0) {
+      if (minutes > 0) {
+        minutes -= 1;
+        seconds = minutes === 0 ? 59 : 0;
+      } else if (seconds > 0) {
+        seconds -= 1;
+      }
+    } else {
+      if (minutes === 0 && seconds < 59) {
+        seconds += 1;
+      } else if (minutes < 99) {
+        minutes += 1;
+        seconds = 0;
+      }
+    }
+    this.setState({ time: { minutes, seconds } });
+    if (!running) {
+      this.updateDefaults(minutes, seconds);
+    }
   }
 
   requestNotificationsPermission() {

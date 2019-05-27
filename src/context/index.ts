@@ -6,6 +6,8 @@ export const timer = createContext({
   running: false,
   resetTimer: () => { },
   toggleRunning: () => { },
+  addTime: () => {},
+  decreaseTime: () => {},
   viewSettings: () => { },
 });
 
