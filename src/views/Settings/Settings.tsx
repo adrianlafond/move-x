@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { settings } from '../../context';
 import './Settings.css';
 
+import SettingsTimeDisplay from '../../components/SettingsTimeDisplay';
+
 class Settings extends Component {
   static contextType = settings;
 
@@ -29,6 +31,8 @@ class Settings extends Component {
     }
     return (
       <div className='move-settings'>
+        <label>Default countdown time:</label>
+        <SettingsTimeDisplay />
         <input
           type="number"
           onChange={onMinutesChange}

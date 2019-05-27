@@ -1,0 +1,14 @@
+.move-time-numbers {
+  width: 100%;
+}
+
+.move-time-numbers__text {
+  margin: 0;
+  font-size: 30vw;
+  cursor: default;
+}
+
+.move-time-numbers__text--focussed {
+  color: var(--bg-color);
+  background-color: var(--fg-color);
+}

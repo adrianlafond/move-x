@@ -1,17 +1,10 @@
 import React, { useContext } from 'react';
 import { timer } from '../../context';
+import { padZero } from '../../util/numbers';
 import './Timer.css';
 
-function formatNumber(value: number): string {
-  let str = `${value}`;
-  while (str.length < 2) {
-    str = '0' + str;
-  }
-  return str;
-}
-
 function formatTime(minutes: number, seconds: number): string {
-  return `${formatNumber(minutes)}:${formatNumber(seconds)}`;
+  return `${padZero(minutes)}:${padZero(seconds)}`;
 }
 
 const Timer: React.FC = () => {
@@ -24,6 +17,6 @@ const Timer: React.FC = () => {
       <button onClick={viewSettings}>SETTINGS</button>
     </div>
   );
-}
+};
 
 export default Timer;
